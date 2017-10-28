@@ -24,7 +24,10 @@ void app_main(void)
 		abort();
 	}
 
-	printf("pre mmap heap=%x\n", esp_get_free_heap_size());
+    printf("partition: type=%d, subtype=%d, address=0x%x, size=0x%x, label='%s', encrypted=%d\n",
+        part->type, part->subtype, part->address, part->size, part->label, part->encrypted);
+
+	printf("pre mmap heap=0x%x\n", esp_get_free_heap_size());
 
 	err = esp_partition_mmap(part, 0, part->size, SPI_FLASH_MMAP_DATA, (const void**)&data, &handle);
 	if (err!=ESP_OK)
@@ -33,7 +36,7 @@ void app_main(void)
 		abort();
 	}
 
-	printf("post mmap heap=%x\n", esp_get_free_heap_size());
+	printf("post mmap heap=0x%x\n", esp_get_free_heap_size());
 
 	printf("mmap=%p\n", data);
 
