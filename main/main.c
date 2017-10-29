@@ -29,7 +29,7 @@ void app_main(void)
 
 	printf("pre mmap heap=0x%x\n", esp_get_free_heap_size());
 
-	err = esp_partition_mmap(part, 0, part->size, SPI_FLASH_MMAP_DATA, (const void**)&data, &handle);
+	err = esp_partition_mmap(part, 0, part->size, /*SPI_FLASH_MMAP_DATA*/ SPI_FLASH_MMAP_INST, (const void**)&data, &handle);
 	if (err!=ESP_OK)
 	{
 		printf("esp_partition_mmap failed. (%d)\n", err);
@@ -40,6 +40,8 @@ void app_main(void)
 
 	printf("mmap=%p\n", data);
 
+    spi_flash_mmap_dump();
+    
     while (true)
     {
         vTaskDelay(300 / portTICK_PERIOD_MS);
